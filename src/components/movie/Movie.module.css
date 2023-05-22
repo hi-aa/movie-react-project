@@ -1,0 +1,74 @@
+* {
+  box-sizing: border-box;
+}
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  text-align: center;
+}
+
+/* Float four columns side by side */
+.column {
+  display: inline-block;
+  width: 32%;
+  padding: 0 40px;
+}
+
+/* Remove extra left and right margins, due to padding */
+.row {margin: 0 -5px;}
+
+/* Clear floats after the columns */
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+/* Responsive columns */
+@media screen and (max-width: 1100px) {
+  .column {
+    width: 45%;
+    margin-bottom: 20px;
+  }
+}
+@media screen and (max-width: 800px) {
+  .column {
+    width: 100%;
+    display: block;
+    margin-bottom: 20px;
+  }
+}
+
+/* Style the counter cards */
+.card {
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  margin: 10px 0;
+  padding: 18px;
+  text-align: center;
+  background-color: #f1f1f1;
+}
+.title {
+  width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2; /* 라인수 */
+  -webkit-box-orient: vertical;
+  word-wrap:break-word; 
+  line-height: 1.2em;
+  height: 2.4em;
+}
+.summary {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 5; /* 라인수 */
+  -webkit-box-orient: vertical;
+  word-wrap:break-word; 
+  line-height: 1.2em;
+  height: 6em;
+}
+
+/* star rating */
+.star-checked {
+  color: orange;
+}

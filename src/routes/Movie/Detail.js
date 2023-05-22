@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import Loading from "../../components/Loading";
-import Home from "../Home";
 
 function Detail() {
   const { id } = useParams();
@@ -28,11 +27,33 @@ function Detail() {
         loading
         ? <Loading />
         : <div>
-          Detail 
+          <h3>Detail {movie.id}</h3>
           <h2>
-            {/* 영화 정보 출력하기 */}
-            {movie.title}
+            <Link to={movie.url}>
+              {movie.title_long}
+            </Link>
           </h2>
+          <img src={movie.medium_cover_image} alt={`${movie.title} cover`}/>
+          <div>
+            <h3>Genre</h3>
+            {movie.genres.join(', ')}
+          </div>
+          <div>
+            <h3>Upload Date</h3>
+            {movie.date_uploaded}
+          </div>
+          <div>
+            <h3>Description</h3>
+            {movie.description_intro}
+          </div>
+          <div>
+            <h3>Download Count</h3>
+            {movie.download_count}
+          </div>
+          <div>
+            <h3>Rating</h3>
+            {movie.rating}
+          </div>
         </div>
       }
     </div>
