@@ -9,7 +9,7 @@ function Search() {
 
   // 영화목록 조회
   const getMovies = async () => {
-    const response = await fetch(`https://yts.mx/api/v2/list_movies.json?minimum_rating=7&sort_by=year&limit=20&page_number=1`);
+    const response = await fetch(`https://yts.mx/api/v2/list_movies.json?minimum_rating=3&sort_by=year&limit=20&page_number=1`);
     const json = await response.json();
     // console.log(json);
     setMovies(json.data.movies);
