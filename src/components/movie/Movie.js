@@ -28,9 +28,9 @@ function Movie({id, title, coverImg, summary, rating}) {
           }
           <span>&nbsp;&nbsp;{Number(rating).toFixed(1)}</span>
 
-          <div className={styles.button} onClick={() => setIsOpen(true)}>
+          <button className={styles.button} onClick={() => setIsOpen(true)}>
             <FontAwesomeIcon icon={faSearch} />
-          </div>
+          </button>
           {
             isOpen ? <Popup id={id} onClose={() => setIsOpen(false)} /> : null
           }
