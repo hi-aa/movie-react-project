@@ -5,6 +5,7 @@ import Detail from "./routes/Movie/Detail";
 import List from "./routes/Movie/List";
 import Navigation from "./components/layout/Navigation";
 import { useState } from "react";
+import Menu1 from "./routes/Menu1/Menu1";
 
 function App() {
   const [query, setQuery] = useState(''); // 검색어
@@ -20,6 +21,7 @@ function App() {
             <Route path="" element={<List query={query} search={search} />} />
             <Route path=":id" element={<Detail />}/>
           </Route>
+          <Route path="/menu1" element={<Menu1 />}/>
         </Routes>
       </div>
     </Router>

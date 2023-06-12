@@ -19,6 +19,7 @@ function Navigation({setQuery, onSearch}) {
     <div className={styles.topnav}>
       <NavLink to="/" className={({ isActive }) => (isActive ? styles.active : null)}>Home</NavLink>
       <NavLink to="/movies" className={({ isActive }) => (isActive ? styles.active : null)}>List</NavLink>
+      <NavLink to="/menu1" className={({ isActive }) => (isActive ? styles.active : null)}>Menu1</NavLink>
 
       <div className={styles['search-container']}>
         <form onSubmit={onSubmit} onKeyDown={onCheckEnter}>
