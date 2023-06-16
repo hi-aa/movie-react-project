@@ -14,7 +14,15 @@ table tbody td {
   padding: 10px;
   border-bottom: 1px solid #ddd;
 }
-table tbody tr:hover td {
-  color: #004;
+table tbody tr:hover td, table tbody tr.active td{
+  color: rgb(1, 1, 77);
   background-color: #a2cef847;
+}
+table tbody tr.active td {
+  font-weight: bold;
+}
+table tbody tr.check td{
+  color: rgb(136, 136, 139);
+  /* background-color: #ddd; */
+  text-decoration: line-through;
 }
