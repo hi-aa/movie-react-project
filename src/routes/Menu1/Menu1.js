@@ -2,7 +2,7 @@ import styles from "./Menu1.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCheck, faPlus, faXmark } from "@fortawesome/free-solid-svg-icons";
 import Item from "../../components/menu1/Item";
-import { useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 function Menu1() {
   const [list, setList] = useState([]);
@@ -25,12 +25,35 @@ function Menu1() {
     });
   };
 
+  // list 조회하기
+  const getTestList = useCallback(async () => {
+    const url = `http://localhost:8080/api/getTestList?listType=MAIN`;
+    const response = await fetch(url);
+    const json = await response.json();
+    // console.log(json);
+    setList(json);
+  }, [list]);
+
+  useEffect(() => {
+    getTestList();
+  }, []);
+
   // 리스트 추가
-  const addMenu = (e) => {
+  const addMenu = async (e) => {
     if(inputs.menu1 === "") { // 공백 막기
       showAlert('내용을 작성하세요.');
       return;
     }
+    const url = `http://localhost:8080/api/insertTest`;
+    const response = await fetch(url, {
+      method: "POST",
+      headers : {               //데이터 타입 지정
+        "Content-Type":"application/json; charset=utf-8"
+      },
+      body: JSON.stringify({listKey: counter, listTitle: inputs.menu1, listType: "MAIN"})
+    });
+    console.log(await response.json());
+
     setList([...list, {key: counter, value: inputs.menu1}]); // 리스트 업데이트
     setInputs({...inputs, menu1 : ""}); // input 클리어
     setCouter(counter => ++counter);

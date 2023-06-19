@@ -25,7 +25,7 @@ function Item({ list, selectedKey, setSelectedKey, clearList }) {
                 className={[selectedKey === item.key ? styles.active: '', clearList.indexOf(item.key) > -1 ? styles.check : ''].join(' ')}
               >
                 <td>
-                    {item.key} / {item.value}
+                    {item.value}
                   </td>
               </tr>  
             )
