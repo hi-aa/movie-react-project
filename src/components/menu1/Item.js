@@ -20,13 +20,13 @@ function Item({ list, selectedKey, setSelectedKey, clearList }) {
         <tbody>
           {
             list.map(item => 
-              <tr key={item.key}
-                onClick={e => onClick(e, item.key)}
-                className={[selectedKey === item.key ? styles.active: '', clearList.indexOf(item.key) > -1 ? styles.check : ''].join(' ')}
+              <tr key={item.listKey}
+                onClick={e => onClick(e, item.listKey)}
+                className={[selectedKey === item.listKey ? styles.active: '', clearList.indexOf(item.listKey) > -1 ? styles.check : ''].join(' ')}
               >
                 <td>
-                    {item.value}
-                  </td>
+                  {item.listTitle} / {item.listConts}
+                </td>
               </tr>  
             )
           }

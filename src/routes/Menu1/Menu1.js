@@ -30,7 +30,7 @@ function Menu1() {
     const url = `http://localhost:8080/api/getTestList?listType=MAIN`;
     const response = await fetch(url);
     const json = await response.json();
-    // console.log(json);
+    console.log(json);
     setList(json);
   }, [list]);
 
