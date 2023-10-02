@@ -4,39 +4,39 @@ import Loading from "../../components/Loading";
 
 function Detail() {
   const { id } = useParams();
-  const [ loading, setLoading ] = useState(true);
-  const [ movie, setMovie ] = useState({});
+  const [loading, setLoading] = useState(true);
+  const [movie, setMovie] = useState({});
   // console.log(id)
 
   // 영화 조회
   const getMovie = async () => {
-    const response = await fetch(`https://yts.mx/api/v2/movie_details.json?movie_id=${id}`);
+    const response = await fetch(
+      `https://yts.mx/api/v2/movie_details.json?movie_id=${id}`
+    );
     const json = await response.json();
     // console.log(json);
     setMovie(json.data.movie);
     setLoading(false);
-  }
+  };
 
-  useEffect(() => {
-    getMovie();
-  }, []);
+  // useEffect(() => {
+  //   getMovie();
+  // }, []);
 
   return (
     <div>
-      {
-        loading
-        ? <Loading />
-        : <div>
+      {loading ? (
+        <Loading />
+      ) : (
+        <div>
           <h3>Detail {movie.id}</h3>
           <h2>
-            <Link to={movie.url}>
-              {movie.title_long}
-            </Link>
+            <Link to={movie.url}>{movie.title_long}</Link>
           </h2>
-          <img src={movie.medium_cover_image} alt={`${movie.title} cover`}/>
+          <img src={movie.medium_cover_image} alt={`${movie.title} cover`} />
           <div>
             <h3>Genre</h3>
-            {movie.genres.join(', ')}
+            {movie.genres.join(", ")}
           </div>
           <div>
             <h3>Upload Date</h3>
@@ -55,7 +55,7 @@ function Detail() {
             {movie.rating}
           </div>
         </div>
-      }
+      )}
     </div>
   );
 }

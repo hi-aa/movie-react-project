@@ -1,31 +1,36 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import styles from "./App.module.css";
-import Home from "./routes/Home";
-import Detail from "./routes/Movie/Detail";
-import List from "./routes/Movie/List";
 import Navigation from "./components/layout/Navigation";
+import routeLink from "./router";
 import { useState } from "react";
-import Menu1 from "./routes/Menu1/Menu1";
+import { useRecoilValue } from "recoil";
+import { loadingState } from "./atom/main-atom";
+import Loading from "./components/Loading";
 
 function App() {
-  const [query, setQuery] = useState(''); // 검색어
-  const [search, onSearch] = useState(1); // 동일한 검색어로 검색 재실행되도록 하기 위해 추가함
+  const loading = useRecoilValue(loadingState);
+  const [query, setQuery] = useState("");
 
   return (
-    <Router basename={process.env.PUBLIC_URL}>
-      <div className={styles.App}>
-        <Navigation setQuery={setQuery} onSearch={onSearch} />
-        <Routes>
-          <Route path="/" element={<Home />}/>
-          <Route path="/movies">
-            <Route path="" element={<List query={query} search={search} />} />
-            <Route path=":id" element={<Detail />}/>
-          </Route>
-          <Route path="/menu1" element={<Menu1 />}/>
-        </Routes>
-      </div>
-    </Router>
-  )
+    <>
+      <Router basename={process.env.PUBLIC_URL}>
+        <div className={styles.App}>
+          <Navigation setQuery={setQuery} />
+          <Routes>
+            {routeLink.map((v) => (
+              <Route
+                path={v.path}
+                element={v.element}
+                query={query}
+                key={v.id}
+              />
+            ))}
+          </Routes>
+        </div>
+      </Router>
+      {loading > 0 && <Loading />}
+    </>
+  );
 }
 
 export default App;

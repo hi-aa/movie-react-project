@@ -1,0 +1,7 @@
+import { api } from ".";
+
+export const fetchMovieList = async (query = "") => {
+  const url = `${process.env.REACT_APP_MOVIE_API}/api/v2/list_movies.json?`;
+  const params = `minimum_rating=3&sort_by=year&limit=20&page_number=1&query_term=${query}`;
+  return await api.get(url, params);
+};
