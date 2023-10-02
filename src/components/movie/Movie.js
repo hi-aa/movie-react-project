@@ -1,13 +1,15 @@
 import PropTypes from "prop-types";
 import styles from "./Movie.module.css";
-import { faStar, faStarHalfStroke } from "@fortawesome/free-solid-svg-icons";
+import { faStar, faStarHalfStroke, faSearch } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Link } from "react-router-dom";
+import Popup from "../Popup";
+import { useState } from "react";
 
 function Movie({id, title, coverImg, summary, rating}) {
+  const [isOpen, setIsOpen] = useState(false);
+
   return (
     <div className={styles.column}>
-      <Link to={`/movie/${id}`} style={{textDecoration: 'none', color: 'black'}}>
         <div className={styles.card}>
           <h3 className={styles.title}>{title}</h3>
           <img src={coverImg} alt={`${title} cover`}/>
@@ -15,7 +17,6 @@ function Movie({id, title, coverImg, summary, rating}) {
           {
             Array.from({length: 5}, (_, i) => (i + 1) * 2).map(i => {
               let calRating = Math.round(rating);
-              console.log(rating, calRating)
               if(calRating >= i) {
                 return <FontAwesomeIcon icon={faStar} className={styles['star-checked']} key={i}/>
               } else if(calRating >= i - 1) {
@@ -26,8 +27,14 @@ function Movie({id, title, coverImg, summary, rating}) {
             })
           }
           <span>&nbsp;&nbsp;{Number(rating).toFixed(1)}</span>
-        </div>
-      </Link>
+
+          <button className={styles.button} onClick={() => setIsOpen(true)}>
+            <FontAwesomeIcon icon={faSearch} />
+          </button>
+          {
+            isOpen ? <Popup id={id} onClose={() => setIsOpen(false)} /> : null
+          }
+      </div>
     </div>
   );
 }
