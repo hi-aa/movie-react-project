@@ -3,12 +3,22 @@ import styles from "./Navigation.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import { useState } from "react";
+import { useSetRecoilState } from "recoil";
+import { searchState } from "../../atom/main-atom";
 
-function Navigation({ setQuery }) {
+function Navigation() {
+  const setSearch = useSetRecoilState(searchState);
   const [keyword, setKeyword] = useState("");
 
   const onSubmit = (e) => {
-    setQuery(keyword);
+    setSearch(keyword);
+    e.preventDefault();
+  };
+
+  const onCheckEnter = (e) => {
+    if (e.key === "Enter") {
+      onSubmit(e);
+    }
   };
 
   return (
@@ -23,7 +33,7 @@ function Navigation({ setQuery }) {
         to="/movies"
         className={({ isActive }) => (isActive ? styles.active : null)}
       >
-        List
+        Movie
       </NavLink>
       <NavLink
         to="/menu1"
@@ -33,11 +43,10 @@ function Navigation({ setQuery }) {
       </NavLink>
 
       <div className={styles["search-container"]}>
-        <form onKeyDown={onSubmit}>
+        <form onKeyDown={onCheckEnter}>
           <input
             type="text"
             onChange={(e) => setKeyword(e.target.value)}
-            // onChange={(e) => setQuery(e.target.value)}
             placeholder="Search Movie Title, Actor, Director"
             autoComplete="off"
           />
