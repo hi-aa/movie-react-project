@@ -1,7 +1,8 @@
 import Home from "../pages/Home";
-import Detail from "../pages/Movie/Detail";
-import List from "../pages/Movie/List";
-import Menu1 from "../pages/Menu1/Menu1";
+import Detail from "../components/movie/Detail";
+import List from "../pages/movie/List";
+import Menu1 from "../pages/menu1/Menu1";
+import NotFount from "../pages/error/NotFount";
 
 const routeLink = [
   {
@@ -17,12 +18,12 @@ const routeLink = [
     path: "/movies",
     element: <List />,
     children: [
-      {
-        id: 101,
-        title: "Movie List",
-        path: "/movies/:id",
-        element: <Detail />,
-      },
+      // {
+      //   id: 101,
+      //   title: "Movie List",
+      //   path: "/movies/:id",
+      //   element: <Detail />,
+      // },
     ],
   },
   {
@@ -30,6 +31,13 @@ const routeLink = [
     title: "Menu1 Test",
     path: "/menu1",
     element: <Menu1 />,
+    children: [],
+  },
+  {
+    id: 900,
+    title: "Not Found 404",
+    path: "*",
+    element: <NotFount />,
     children: [],
   },
 ];
