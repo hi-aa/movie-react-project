@@ -12,11 +12,13 @@ function App() {
           <Navigation />
           <GlobalLoader />
 
-          <Routes>
-            {routeLink.map((v) => (
-              <Route key={v.id} path={v.path} element={v.element} />
-            ))}
-          </Routes>
+          <div className={styles.contents}>
+            <Routes>
+              {routeLink.map((v) => (
+                <Route key={v.id} path={v.path} element={v.element} />
+              ))}
+            </Routes>
+          </div>
         </div>
       </Router>
     </>

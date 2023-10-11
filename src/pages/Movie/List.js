@@ -1,38 +1,56 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useState } from "react";
 import Movie from "../../components/movie/Movie";
 import styles from "../../components/movie/Movie.module.css";
 import { fetchMovieList } from "../../api/movie-api";
-import { useRecoilValue } from "recoil";
-import { searchState } from "../../atom/main-atom";
 import Popup from "../../components/common/Popup";
 import Detail from "../../components/movie/Detail";
-import { isNumber } from "../../util/empty-validation";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faSearch } from "@fortawesome/free-solid-svg-icons";
 
 function Search() {
-  const search = useRecoilValue(searchState); // 검색어
+  const [search, setSearch] = useState(""); // 검색어
   const [movieList, setMovieList] = useState([]); // 조회결과
-
-  const [open, setOpen] = useState(false); // 팝업 상태
   const [selectedId, setSelectedId] = useState(0); // 상세페이지
 
   useEffect(() => {
+    // 목록 조회
+    onSubmit();
+  }, []);
+
+  // 목록 조회
+  const onSubmit = () => {
     setMovieList([]);
 
-    // 목록 조회
     fetchMovieList(search).then((response) => {
       const { data } = response;
       setMovieList(data.movies);
     });
-  }, [search]);
+  };
 
-  // 상세페이지 오픈
-  useEffect(() => {
-    // console.log({ selectedId });
-    setOpen(isNumber(selectedId) && selectedId > 0);
-  }, [selectedId]);
+  // enter
+  const onCheckEnter = (e) => {
+    if (e.key === "Enter") {
+      onSubmit();
+    }
+  };
 
   return (
     <>
+      <div className="input-group">
+        <input
+          type="text"
+          aria-label="search"
+          className="form-control"
+          placeholder="검색어"
+          onChange={(e) => setSearch(e.target.value)}
+          onKeyUp={onCheckEnter}
+        />
+        <span className="btn btn-outline-secondary" onClick={onSubmit}>
+          <FontAwesomeIcon icon={faSearch} />
+        </span>
+      </div>
+
       <div className={styles.row}>
         {movieList?.length > 0 ? (
           movieList?.map((v) => (
@@ -52,8 +70,13 @@ function Search() {
       </div>
 
       <Popup
-        open={open}
-        setOpen={setOpen}
+        open={selectedId > 0}
+        setOpen={(value) => {
+          if (!value) {
+            // 팝업 닫기
+            setSelectedId(0);
+          }
+        }}
         popContents={<Detail id={selectedId} />}
       />
     </>
