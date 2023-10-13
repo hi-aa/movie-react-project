@@ -1,10 +1,9 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useState } from "react";
-import Movie from "../../components/movie/Movie";
-import styles from "../../components/movie/Movie.module.css";
+import MovieItem from "../../components/movie/MovieItem";
 import { fetchMovieList } from "../../api/movie-api";
 import Popup from "../../components/common/Popup";
-import Detail from "../../components/movie/Detail";
+import Detail from "../../components/movie/MovieDetail";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
 
@@ -24,6 +23,7 @@ function Search() {
 
     fetchMovieList(search).then((response) => {
       const { data } = response;
+      console.log({ data });
       setMovieList(data.movies);
     });
   };
@@ -37,7 +37,8 @@ function Search() {
 
   return (
     <>
-      <div className="input-group">
+      {/* search */}
+      <div className="input-group mb-4">
         <input
           type="text"
           aria-label="search"
@@ -51,22 +52,20 @@ function Search() {
         </span>
       </div>
 
-      <div className={styles.row}>
-        {movieList?.length > 0 ? (
-          movieList?.map((v) => (
-            <Movie
-              key={v.id}
-              id={v.id}
-              title={v.title}
-              coverImg={v.medium_cover_image}
-              summary={v.summary}
-              rating={v.rating}
-              setSelectedId={setSelectedId}
-            />
-          ))
-        ) : (
-          <>empty</>
-        )}
+      {/* list */}
+      <div class="row mb-2">
+        {movieList.map((v) => (
+          <MovieItem
+            key={v.id}
+            id={v.id}
+            title={v.title}
+            genres={v.genres}
+            coverImg={v.medium_cover_image}
+            summary={v.summary}
+            rating={v.rating}
+            setSelectedId={setSelectedId}
+          />
+        ))}
       </div>
 
       <Popup

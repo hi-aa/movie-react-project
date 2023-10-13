@@ -3,6 +3,8 @@ import styles from "./App.module.css";
 import Navigation from "./components/layout/Navigation";
 import routeLink from "./router";
 import { GlobalLoader } from "./api";
+import "bootstrap/dist/css/bootstrap.css";
+import "bootstrap/dist/js/bootstrap.bundle";
 
 function App() {
   return (
