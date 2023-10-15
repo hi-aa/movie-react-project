@@ -3,14 +3,14 @@ import { NavLink } from "react-router-dom";
 function Navigation() {
   return (
     <>
-      <nav class="navbar navbar-expand-md navbar-dark bg-dark">
+      <nav className="navbar navbar-expand-md navbar-dark bg-dark">
         {/* <a class="navbar-brand" href="#">
           Top navbar
         </a> */}
 
-        <div class="collapse navbar-collapse" id="navbarCollapse">
-          <ul class="navbar-nav mr-auto">
-            <li class="nav-item">
+        <div className="collapse navbar-collapse" id="navbarCollapse">
+          <ul className="navbar-nav mr-auto">
+            <li className="nav-item">
               <NavLink
                 to="/"
                 className={({ isActive }) =>
@@ -20,7 +20,7 @@ function Navigation() {
                 Home
               </NavLink>
             </li>
-            <li class="nav-item">
+            <li className="nav-item">
               <NavLink
                 to="/movies"
                 className={({ isActive }) =>
@@ -30,7 +30,7 @@ function Navigation() {
                 Movie
               </NavLink>
             </li>
-            <li class="nav-item">
+            <li className="nav-item">
               <NavLink
                 to="/menu1"
                 className={({ isActive }) =>

@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import MovieItem from "../../components/movie/MovieItem";
 import { fetchMovieList } from "../../api/movie-api";
 import Popup from "../../components/common/Popup";
@@ -8,23 +8,68 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
 
 function Search() {
+  const observerTarget = useRef(null); // detect last item
+
+  const [page, setPage] = useState(1);
   const [search, setSearch] = useState(""); // 검색어
-  const [movieList, setMovieList] = useState([]); // 조회결과
-  const [selectedId, setSelectedId] = useState(0); // 상세페이지
+  const [isSearch, setIsSearch] = useState(false); // 검색어 변경 체크
+
+  const [movieList, setMovieList] = useState([]); // 영화 목록
+  const [selectedId, setSelectedId] = useState(0); // 상세페이지 연결
 
   useEffect(() => {
     // 목록 조회
-    onSubmit();
+    setIsSearch(false);
+    // onSubmit();
   }, []);
 
-  // 목록 조회
-  const onSubmit = () => {
-    setMovieList([]);
+  useEffect(() => {
+    setIsSearch(true);
+    onSubmit(1);
+  }, [search]);
 
-    fetchMovieList(search).then((response) => {
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting) {
+          // setPage((p) => p + 1);
+          onSubmit(page + 1);
+        }
+      },
+      { threshold: 1 }
+    );
+
+    if (observerTarget.current) {
+      observer.observe(observerTarget.current);
+    }
+
+    return () => {
+      if (observerTarget.current) {
+        observer.unobserve(observerTarget.current);
+      }
+    };
+  }, [observerTarget]);
+
+  // 목록 조회
+  const onSubmit = (updatePage = page) => {
+    // let updatePage = page;
+    if (isSearch) {
+      updatePage = 1;
+      setMovieList([]);
+      setSelectedId(0);
+    }
+
+    setPage(updatePage);
+
+    fetchMovieList(search, updatePage).then((response) => {
+      setIsSearch(false);
+      console.log({ isSearch, updatePage });
       const { data } = response;
-      console.log({ data });
-      setMovieList(data.movies);
+      if (updatePage > 1) {
+        setMovieList((prev) => [...prev, ...data.movies]);
+      } else {
+        setMovieList(data.movies);
+      }
     });
   };
 
@@ -66,6 +111,7 @@ function Search() {
             setSelectedId={setSelectedId}
           />
         ))}
+        <div ref={observerTarget}></div>
       </div>
 
       <Popup

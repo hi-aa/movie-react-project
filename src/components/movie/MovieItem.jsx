@@ -3,6 +3,8 @@ import PropTypes from "prop-types";
 import styles from "./Movie.module.css";
 import { faStar } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { useEffect } from "react";
+import { Tooltip } from "bootstrap";
 
 function Movie({
   id,
@@ -13,6 +15,15 @@ function Movie({
   rating,
   setSelectedId,
 }) {
+  // tooltip initialize
+  useEffect(() => {
+    const tooltipTriggerList = document.querySelectorAll(
+      '[data-bs-toggle="tooltip"]'
+    );
+    const tooltipList = [...tooltipTriggerList].map(
+      (tooltipTriggerEl) => new Tooltip(tooltipTriggerEl)
+    );
+  }, []);
   return (
     <div className="col-md-4">
       <div className="card flex-md-row mb-4 box-shadow h-md-250">
@@ -24,8 +35,8 @@ function Movie({
           </strong>
           <h3
             className={`mb-0 text-dark ${styles.title}`}
-            // data-bs-toggle="tooltip"
-            // data-bs-title="Default tooltip"
+            data-bs-toggle="tooltip"
+            data-bs-title={title || "title"}
           >
             {title}
           </h3>
