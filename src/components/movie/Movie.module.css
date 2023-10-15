@@ -1,0 +1,22 @@
+.item_wrap {
+  width: 100%;
+  overflow: hidden;
+}
+.title {
+  width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.summary {
+  width: 100%;
+  line-height: 1.2em;
+  height: 3.6em;
+
+  overflow: hidden;
+  text-overflow: ellipsis;
+  word-break: break-word;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
