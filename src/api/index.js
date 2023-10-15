@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import Loading from "../components/Loading";
+import Loading from "../components/common/Loading";
 
 export const api = axios.create();
 const useAxiosLoader = () => {

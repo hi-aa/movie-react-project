@@ -6,4 +6,8 @@ const isEmptyObject = (obj = {}) => {
   return !obj || Object.keys(obj).length === 0;
 };
 
-export { isEmptyStr, isEmptyObject };
+const isNumber = (value) => {
+  return !isNaN(+value);
+};
+
+export { isEmptyStr, isEmptyObject, isNumber };
