@@ -7,7 +7,7 @@ import Detail from "../../components/movie/MovieDetail";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
 
-function Search() {
+export default function MovieList() {
   const observerTarget = useRef(null); // detect last item
 
   const [page, setPage] = useState(1);
@@ -98,7 +98,7 @@ function Search() {
       </div>
 
       {/* list */}
-      <div class="row mb-2">
+      <div className="row mb-2">
         {movieList.map((v) => (
           <MovieItem
             key={v.id}
@@ -127,5 +127,3 @@ function Search() {
     </>
   );
 }
-
-export default Search;
