@@ -6,7 +6,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useEffect } from "react";
 import { Tooltip } from "bootstrap";
 
-function Movie({
+export default function MovieItem({
   id,
   title,
   genres = [],
@@ -15,7 +15,7 @@ function Movie({
   rating,
   setSelectedId,
 }) {
-  // tooltip initialize
+  // bootstrap tooltip initialize
   useEffect(() => {
     const tooltipTriggerList = document.querySelectorAll(
       '[data-bs-toggle="tooltip"]'
@@ -30,7 +30,7 @@ function Movie({
         <div
           className={`card-body d-flex flex-column align-items-start ${styles["item_wrap"]}`}
         >
-          <strong class="d-inline-block mb-2 text-primary">
+          <strong className="d-inline-block mb-2 text-primary">
             {genres?.[0]}
           </strong>
           <h3
@@ -40,7 +40,7 @@ function Movie({
           >
             {title}
           </h3>
-          <div class="mb-1 text-muted">
+          <div className="mb-1 text-muted">
             <FontAwesomeIcon icon={faStar} className={styles["star-checked"]} />
             &nbsp;{rating}
           </div>
@@ -55,7 +55,7 @@ function Movie({
           </a>
         </div>
         <img
-          class="card-img-right flex-auto d-none d-md-block"
+          className="card-img-right flex-auto d-none d-md-block"
           src={coverImg}
           data-holder-rendered="true"
           alt={title}
@@ -65,13 +65,12 @@ function Movie({
   );
 }
 
-Movie.propTypes = {
+MovieItem.propTypes = {
   id: PropTypes.number.isRequired,
   title: PropTypes.string.isRequired,
+  genres: PropTypes.array,
   coverImg: PropTypes.string,
   summary: PropTypes.string,
   rating: PropTypes.number,
   setSelectedId: PropTypes.func,
 };
-
-export default Movie;

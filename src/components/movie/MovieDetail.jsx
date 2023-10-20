@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { fetchMovieDetail } from "../../api/movie-api";
 import { isEmptyObject } from "../../util/empty-validation";
 
-function Detail({ id }) {
+export default function MovieDetail({ id }) {
   const [movie, setMovie] = useState({});
 
   useEffect(() => {
@@ -46,5 +46,3 @@ function Detail({ id }) {
     )
   );
 }
-
-export default Detail;
