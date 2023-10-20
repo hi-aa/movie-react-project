@@ -3,6 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCheck, faPlus, faXmark } from "@fortawesome/free-solid-svg-icons";
 import Item from "../../components/menu1/Item";
 import { useCallback, useEffect, useState } from "react";
+import Calendar from "react-calendar";
 
 function Menu1() {
   const [list, setList] = useState([]);
@@ -117,11 +118,74 @@ function Menu1() {
     return () => clearTimeout(timer);
   };
 
+  // 날짜 변경
+  const onChangeDate = (value) => {
+    console.log("날짜 변경", value);
+  };
+
   return (
-    <div>
-      <div className="btn-wrap">
+    <>
+      <div className="container text-center">
+        <div className="row">
+          <div className="col-6 col-md-4">
+            <Calendar onChange={onChangeDate} />
+          </div>
+          <div className="col-md-8">
+            <div className="card">
+              <div className="card-body">
+                <h5 className="card-title">Card title</h5>
+                <h6 className="card-subtitle mb-2 text-muted">Card subtitle</h6>
+                <p className="card-text">
+                  Some quick example text to build on the card title and make up
+                  the bulk of the card's content.
+                </p>
+                <a href="#" className="card-link">
+                  Card link
+                </a>
+                <a href="#" className="card-link">
+                  Another link
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className="row">
+          <div className="col">
+            <table className="table table-striped light">
+              <thead>
+                <tr>
+                  <th scope="col">#</th>
+                  <th scope="col">First</th>
+                  <th scope="col">Last</th>
+                  <th scope="col">Handle</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <th scope="row">1</th>
+                  <td>Mark</td>
+                  <td>Otto</td>
+                  <td>@mdo</td>
+                </tr>
+                <tr>
+                  <th scope="row">2</th>
+                  <td>Jacob</td>
+                  <td>Thornton</td>
+                  <td>@fat</td>
+                </tr>
+                <tr>
+                  <th scope="row">3</th>
+                  <td colSpan="2">Larry the Bird</td>
+                  <td>@twitter</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      {/* <div className="btn-wrap">
         <br />
-        {/* [{selectedKey}] */}
         <input
           type="text"
           name="menu1"
@@ -146,18 +210,18 @@ function Menu1() {
         >
           <FontAwesomeIcon icon={faCheck} size="2xl" />
         </button>
-      </div>
-      <div className={styles["alert-wrap"]}>{alert}</div>
+      </div> */}
+      {/* <div className={styles["alert-wrap"]}>{alert}</div> */}
 
-      <div className="cont-wrap">
+      {/* <div className="cont-wrap">
         <Item
           list={list}
           selectedKey={selectedKey}
           setSelectedKey={setSelectedKey}
           clearList={clearList}
         />
-      </div>
-    </div>
+      </div> */}
+    </>
   );
 }
 
