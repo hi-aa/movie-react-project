@@ -11,7 +11,7 @@ function Popup({ open, setOpen, popContents = <></> }) {
 
   return (
     open && (
-      <div className={styles.modal} onClick={popClose}>
+      <div className={styles.modal}>
         <div className={styles["modal-content"]}>
           <span className={styles.close} onClick={popClose}>
             &times;

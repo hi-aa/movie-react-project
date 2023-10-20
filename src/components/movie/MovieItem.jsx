@@ -15,7 +15,7 @@ export default function MovieItem({
   rating,
   setSelectedId,
 }) {
-  // tooltip initialize
+  // bootstrap tooltip initialize
   useEffect(() => {
     const tooltipTriggerList = document.querySelectorAll(
       '[data-bs-toggle="tooltip"]'
@@ -68,6 +68,7 @@ export default function MovieItem({
 MovieItem.propTypes = {
   id: PropTypes.number.isRequired,
   title: PropTypes.string.isRequired,
+  genres: PropTypes.array,
   coverImg: PropTypes.string,
   summary: PropTypes.string,
   rating: PropTypes.number,
