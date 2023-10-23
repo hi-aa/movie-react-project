@@ -3,6 +3,7 @@ import styles from "./App.module.css";
 import Navigation from "./components/layout/Navigation";
 import routeLink from "./router";
 import { GlobalLoader } from "./api";
+import "react-calendar/dist/Calendar.css";
 
 function App() {
   return (
