@@ -1,15 +1,39 @@
 import Calendar from "react-calendar";
 import dayjs from "dayjs";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import MenuForm from "../../components/menu1/MenuForm";
 import MenuList from "../../components/menu1/MenuList";
 
 function Menu1() {
   const [ymd, setYmd] = useState(dayjs().format("YYYY-MM-DD")); // 날짜 선택
-  const [list, setList] = useState([]);
+  const [selectedKey, setSelectedKey] = useState(0);
+  const [list, setList] = useState([]); // 목록
+
+  // 속성
+  const formAttr = {
+    // str: "",
+    radio: [
+      { value: "Y", title: "예" },
+      { value: "N", title: "아니오" },
+    ],
+    checkbox: [
+      { value: "cat", title: "고양이" },
+      { value: "dog", title: "개" },
+      { value: "rabbit", title: "토끼" },
+    ],
+  };
 
   const saveData = (params = {}) => {
-    setList((prev) => [...prev, params]);
+    setList((prev) => {
+      const keyList = [...prev].map((v) => v.key);
+      const maxKey = keyList.length > 0 ? Math.max(...keyList) : 0;
+      // console.log({ keyList, maxKey });
+      return [...prev, { ...params, key: maxKey + 1, ymd }];
+    });
+  };
+
+  const removeData = (key) => {
+    setList((prev) => [...prev.filter((v) => v.key !== key)]);
   };
 
   return (
@@ -19,7 +43,10 @@ function Menu1() {
           <div className="col-6 col-md-4">
             <Calendar
               value={ymd}
-              onChange={(value) => setYmd(dayjs(value).format("YYYY-MM-DD"))}
+              onChange={(value) => {
+                setYmd(dayjs(value).format("YYYY-MM-DD"));
+                setSelectedKey(0);
+              }}
               locale="ko"
             />
           </div>
@@ -34,13 +61,24 @@ function Menu1() {
                   </span>
                 </div>
 
-                <MenuForm saveData={saveData} />
+                <MenuForm
+                  formAttr={formAttr}
+                  list={list}
+                  selectedKey={selectedKey}
+                  saveData={saveData}
+                  removeData={removeData}
+                />
               </div>
             </div>
           </div>
         </div>
 
-        <MenuList list={list} />
+        <MenuList
+          formAttr={formAttr}
+          list={list}
+          selectedKey={selectedKey}
+          setSelectedKey={setSelectedKey}
+        />
       </div>
     </>
   );

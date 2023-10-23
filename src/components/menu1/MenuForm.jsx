@@ -2,17 +2,35 @@
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 
-export default function MenuForm({ saveData }) {
+export default function MenuForm({
+  formAttr,
+  list,
+  selectedKey,
+  saveData,
+  removeData,
+}) {
+  // form data
+  const initValues = { str: "", radio: "Y", checkbox: [] };
   const {
     register,
     handleSubmit,
     watch,
     getValues,
+    reset,
     // formState: { errors },
-  } = useForm({ defaultValues: { str: "", radio: "N", checkbox: [] } });
+  } = useForm({ defaultValues: initValues });
+
+  useEffect(() => {
+    if (selectedKey !== 0) {
+      const item = list[selectedKey] || {};
+      reset({ ...item });
+    } else {
+      reset(initValues);
+    }
+  }, [selectedKey, reset]);
 
   const onSubmit = (data) => {
-    console.log("save", { data });
+    // console.log("save", { data });
     saveData(data);
   };
 
@@ -30,72 +48,44 @@ export default function MenuForm({ saveData }) {
       <fieldset className="row mb-3">
         <legend className="col-form-label col-sm-2 pt-0">Radios</legend>
         <div className="col-sm-10">
-          <div className="form-check">
-            <input
-              className="form-check-input"
-              type="radio"
-              {...register("radio")}
-              id="radioY"
-              value="Y"
-            />
-            <label className="form-check-label" htmlFor="radioY">
-              Yes
-            </label>
-          </div>
-          <div className="form-check">
-            <input
-              className="form-check-input"
-              type="radio"
-              {...register("radio")}
-              id="radioN"
-              value="N"
-            />
-            <label className="form-check-label" htmlFor="radioN">
-              No
-            </label>
-          </div>
+          {formAttr.radio.map((v, i) => (
+            <div className="form-check" key={i}>
+              <input
+                className="form-check-input"
+                type="radio"
+                {...register("radio")}
+                id={`radio${v.value}`}
+                value={v.value}
+              />
+              <label className="form-check-label" htmlFor={`radio${v.value}`}>
+                {v.title}
+              </label>
+            </div>
+          ))}
         </div>
       </fieldset>
 
       <div className="row mb-3">
         <legend className="col-form-label col-sm-2 pt-0">체크박스</legend>
         <div className="col-sm-10">
-          <div className="form-check">
-            <input
-              className="form-check-input"
-              type="checkbox"
-              {...register("checkbox")}
-              id="checkbox1"
-              value="cat"
-            />
-            <label className="form-check-label" htmlFor="checkbox1">
-              Cat
-            </label>
-          </div>
-          <div className="form-check">
-            <input
-              className="form-check-input"
-              type="checkbox"
-              {...register("checkbox")}
-              id="checkbox2"
-              value="dog"
-            />
-            <label className="form-check-label" htmlFor="checkbox2">
-              Dog
-            </label>
-          </div>
-          <div className="form-check">
-            <input
-              className="form-check-input"
-              type="checkbox"
-              {...register("checkbox")}
-              id="checkbox3"
-              value="rabbit"
-            />
-            <label className="form-check-label" htmlFor="checkbox3">
-              Rabbit
-            </label>
-          </div>
+          {formAttr.checkbox.map((v, i) => (
+            <div className="form-check" key={i}>
+              <input
+                className="form-check-input"
+                type="checkbox"
+                {...register("checkbox")}
+                id={`checkbox${v.value}`}
+                value={v.value}
+              />
+
+              <label
+                className="form-check-label"
+                htmlFor={`checkbox${v.value}`}
+              >
+                {v.title}
+              </label>
+            </div>
+          ))}
         </div>
       </div>
       {/* 버튼영역 */}
@@ -103,20 +93,15 @@ export default function MenuForm({ saveData }) {
         <button className="btn btn-primary me-md-2" type="submit">
           저장
         </button>
-        <button type="button" className="btn btn-danger" disabled>
+        <button
+          type="button"
+          className="btn btn-danger"
+          disabled={selectedKey === 0}
+          onClick={() => removeData(selectedKey)}
+        >
           삭제
         </button>
       </div>
-      {/* <p className="card-text">
-                  Some quick example text to build on the card title and make up
-                  the bulk of the card's content.
-                </p> */}
-      {/* <a href="#" className="card-link">
-                  Card link
-                  </a>
-                  <a href="#" className="card-link">
-                  Another link
-                </a> */}
     </form>
   );
 }
