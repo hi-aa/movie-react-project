@@ -59,7 +59,7 @@ function Home() {
 
         <button
           type="button"
-          class="btn btn-secondary"
+          className="btn btn-secondary"
           data-bs-toggle="tooltip"
           // data-bs-placement="top"
           data-bs-title="Tooltip on top"

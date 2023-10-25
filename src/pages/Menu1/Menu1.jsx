@@ -3,11 +3,19 @@ import dayjs from "dayjs";
 import { useEffect, useState } from "react";
 import MenuForm from "../../components/menu1/MenuForm";
 import MenuList from "../../components/menu1/MenuList";
+import { initList } from "../../temp-data/menu1-data";
 
 function Menu1() {
   const [ymd, setYmd] = useState(dayjs().format("YYYY-MM-DD")); // 날짜 선택
   const [selectedKey, setSelectedKey] = useState(0);
   const [list, setList] = useState([]); // 목록
+
+  // init
+  useEffect(() => {
+    // temp data
+    const temp = initList();
+    temp.map((v) => saveData(v));
+  }, []);
 
   // 속성
   const formAttr = {

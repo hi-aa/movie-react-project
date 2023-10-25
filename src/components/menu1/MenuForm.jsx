@@ -14,15 +14,15 @@ export default function MenuForm({
   const {
     register,
     handleSubmit,
-    watch,
-    getValues,
+    // watch,
+    // getValues,
     reset,
     // formState: { errors },
   } = useForm({ defaultValues: initValues });
 
   useEffect(() => {
     if (selectedKey !== 0) {
-      const item = list[selectedKey] || {};
+      const item = list.find((v) => v.key === selectedKey) || {};
       reset({ ...item });
     } else {
       reset(initValues);
