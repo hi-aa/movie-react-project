@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import MenuForm from "../../components/menu1/MenuForm";
 import MenuList from "../../components/menu1/MenuList";
 import { initList } from "../../temp-data/menu1-data";
+import Temp from "../../components/menu1/Temp";
 
 function Menu1() {
   const [ymd, setYmd] = useState(dayjs().format("YYYY-MM-DD")); // 날짜 선택
@@ -36,7 +37,7 @@ function Menu1() {
       const keyList = [...prev].map((v) => v.key);
       const maxKey = keyList.length > 0 ? Math.max(...keyList) : 0;
       // console.log({ keyList, maxKey });
-      return [...prev, { ...params, key: maxKey + 1, ymd }];
+      return [...prev, { ...params, key: maxKey + 1, ymd: params.ymd || ymd }];
     });
   };
 
@@ -46,8 +47,9 @@ function Menu1() {
 
   return (
     <>
-      <div className="container">
+      <div className="container mt-2">
         <div className="row mb-4">
+          {/* 달력 */}
           <div className="col-6 col-md-4">
             <Calendar
               value={ymd}
@@ -59,6 +61,7 @@ function Menu1() {
             />
           </div>
 
+          {/* input form */}
           <div className="col-md-8">
             <div className="card">
               <div className="card-body">
@@ -81,9 +84,14 @@ function Menu1() {
           </div>
         </div>
 
+        {/* row */}
+        <Temp date={ymd} list={list} />
+
+        {/* 테이블 */}
         <MenuList
           formAttr={formAttr}
           list={list}
+          setYmd={setYmd}
           selectedKey={selectedKey}
           setSelectedKey={setSelectedKey}
         />
