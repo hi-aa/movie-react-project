@@ -40,6 +40,16 @@ function Navigation() {
                 Menu1
               </NavLink>
             </li>
+            <li className="nav-item">
+              <NavLink
+                to="/weather"
+                className={({ isActive }) =>
+                  `nav-link ${isActive ? "active" : ""}`
+                }
+              >
+                Weather
+              </NavLink>
+            </li>
           </ul>
         </div>
       </nav>

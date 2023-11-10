@@ -3,6 +3,7 @@ import Home from "../pages/Home";
 import MovieList from "../pages/movie/MovieList";
 import Menu1 from "../pages/menu1/Menu1";
 import NotFount from "../pages/error/NotFount";
+import Weather from "../pages/weather/Weather";
 
 const routeLink = [
   {
@@ -31,6 +32,13 @@ const routeLink = [
     title: "Menu1 Test",
     path: "/menu1",
     element: <Menu1 />,
+    children: [],
+  },
+  {
+    id: 300,
+    title: "Weather",
+    path: "/weather",
+    element: <Weather />,
     children: [],
   },
   {
