@@ -4,6 +4,7 @@ import { useState } from "react";
 export default function MenuList({
   formAttr,
   list = [],
+  setYmd,
   selectedKey,
   setSelectedKey,
 }) {
@@ -40,6 +41,7 @@ export default function MenuList({
                   key={v.key}
                   className={v.key === selectedKey ? "table-active" : ""}
                   onClick={() => {
+                    setYmd(v.ymd);
                     setSelectedKey(selectedKey !== v.key ? v.key : 0);
                   }}
                 >
