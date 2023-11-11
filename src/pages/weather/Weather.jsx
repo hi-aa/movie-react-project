@@ -1,6 +1,12 @@
+import { useEffect } from "react";
 import "./weather.css";
+import { fetchWeatherList } from "../../api/weather-api";
 export default function Weather() {
-  // TODO : 날씨 api 찾아보기
+  useEffect(() => {
+    fetchWeatherList().then((res) => {
+      console.log(res);
+    });
+  }, []);
   return (
     <>
       <div className="container mt-5">
@@ -87,9 +93,9 @@ export default function Weather() {
         </div>
       </div>
 
-      <div class="mt-5 d-flex justify-content-center align-items-center">
+      {/* <div class="mt-5 d-flex justify-content-center align-items-center">
         Made with ♡ by <a href="https://twitter.com/leutrimdemirii"> Leutrim</a>
-      </div>
+      </div> */}
     </>
   );
 }
