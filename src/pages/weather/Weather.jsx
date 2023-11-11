@@ -4,7 +4,9 @@ import { fetchWeatherList } from "../../api/weather-api";
 export default function Weather() {
   useEffect(() => {
     fetchWeatherList().then((res) => {
-      console.log(res);
+      const { items } = res;
+      const info = items?.item?.[0];
+      console.log(info);
     });
   }, []);
   return (
