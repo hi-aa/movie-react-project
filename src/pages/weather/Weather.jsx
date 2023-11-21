@@ -272,8 +272,12 @@ export default function Weather() {
               className="p-4 d-flex flex-column justify-content-center align-items-center"
               key={i}
             >
-              <span>{dayjs(weatherList[i].ymd).format("YYYY-MM-DD")}</span>
+              <div>{dayjs(weatherList[i].ymd).format("MM/DD")}</div>
+              <div className="justify-content-center align-items-center">
+                {dayjs(weatherList[i].ymd).format("ddd")}
+              </div>
               <FontAwesomeIcon
+                className="p-1"
                 size="lg"
                 icon={
                   iconList.find((v) => v.label === weatherList?.[i]?.wf)
