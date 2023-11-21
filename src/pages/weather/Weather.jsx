@@ -4,14 +4,38 @@ import { fetchWeatherLandList, fetchWeatherList } from "../../api/weather-api";
 import { WTHR_AREA_CODE } from "../../constants/weather-enum";
 import dayjs from "dayjs";
 
+import {
+  faDroplet,
+  faTemperatureThreeQuarters,
+  faCircleQuestion,
+  faSun,
+  faCloudSun,
+  faCloud,
+  faCloudShowersHeavy,
+  faCloudMeatball,
+} from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+
 export default function Weather() {
   const [weatherLoc, setWeatherLoc] = useState(""); // 지역명
   const [weatherList, setWeatherList] = useState([]); // 일자별 날씨정보
-  const iconList = []; // 날씨 아이콘
+  const iconList = [
+    { label: "알 수 없음", icon: faCircleQuestion },
+    { label: "맑음", icon: faSun },
+    { label: "구름많음", icon: faCloudSun },
+    { label: "구름많고 비", icon: faCloudShowersHeavy },
+    { label: "구름많고 눈", icon: faCloudMeatball },
+    { label: "구름많고 비/눈", icon: faCloudMeatball },
+    { label: "구름많고 소나기", icon: faCloudShowersHeavy },
+    { label: "흐림", icon: faCloud },
+    { label: "흐리고 비", icon: faCloudShowersHeavy },
+    { label: "흐리고 비/눈", icon: faCloudMeatball },
+    { label: "흐리고 소나기", icon: faCloudShowersHeavy },
+  ]; // 날씨 아이콘
 
   // test
   useEffect(() => {
-    console.log(weatherList);
+    console.log({ weatherList });
   }, [weatherList]);
 
   // weatherList 날짜별로 합치기
@@ -26,7 +50,7 @@ export default function Weather() {
         const newObj = list.find((item) => item.ymd === v);
         return { ...prevObj, ...newObj };
       });
-      console.log({ ymdList });
+      // console.log({ ymdList });
       return ymdList;
     });
   };
@@ -35,7 +59,7 @@ export default function Weather() {
   useEffect(() => {
     // 강수량, 날씨
     fetchWeatherLandList().then((res) => {
-      const { regId, ...item } = res?.items?.item?.[0];
+      const item = res?.items?.item?.[0];
       // 일자별 날씨정보
       const list = [
         {
@@ -197,29 +221,43 @@ export default function Weather() {
           <div className="weather__card">
             <div className="d-flex flex-row justify-content-center align-items-center">
               <div className="p-3">
-                <h2>15&deg;</h2>
+                {/* 기온 */}
+                <h2>{weatherList?.[0]?.taMin}&#8451;</h2>
               </div>
               <div className="p-3">
-                <img src="https://svgur.com/i/oKG.svg" />
+                <FontAwesomeIcon
+                  size="6x"
+                  icon={
+                    iconList.find((v) => v.label === weatherList?.[0]?.wf)
+                      ?.icon || iconList[0].icon
+                  }
+                />
               </div>
               <div className="p-3">
-                <h5>Tuesday, 10 AM</h5>
+                {/* 날짜 */}
+                <h5>{dayjs(weatherList?.[0]?.ymd).format("YYYY-MM-DD")}</h5>
+                {/* 지역 */}
                 <h3>{weatherLoc}</h3>
-                <span className="weather__description">Mostly Cloudy</span>
+                <span className="weather__description">
+                  {/* 날씨 텍스트 */}
+                  {weatherList?.[0]?.wf}
+                </span>
               </div>
             </div>
             <div className="weather__status d-flex flex-row justify-content-center align-items-center mt-3">
               <div className="p-4 d-flex justify-content-center align-items-center">
-                <img src="https://svgur.com/i/oHw.svg" />
-                <span>10%</span>
+                {/* 강수확률 */}
+                <FontAwesomeIcon icon={faDroplet} />
+                <span>
+                  {weatherList?.[0]?.rnStAm}%/{weatherList?.[0]?.rnStPm}%
+                </span>
               </div>
               <div className="p-4 d-flex justify-content-center align-items-center">
-                <img src="https://svgur.com/i/oH_.svg" />
-                <span>0.53 mB</span>
-              </div>
-              <div className="p-4 d-flex justify-content-center align-items-center">
-                <img src="https://svgur.com/i/oKS.svg" />
-                <span>10 km/h</span>
+                <FontAwesomeIcon icon={faTemperatureThreeQuarters} />
+                <span>
+                  {weatherList?.[0]?.taMin}&#8451;/
+                  {weatherList?.[0]?.taMax}&#8451;
+                </span>
               </div>
             </div>
           </div>
@@ -228,57 +266,28 @@ export default function Weather() {
 
       {/* 목록 */}
       <div className="weather__forecast d-flex flex-row justify-content-center align-items-center mt-3">
-        <div className="p-4 d-flex flex-column justify-content-center align-items-center">
-          <span>Wed</span>
-          <img src="https://svgur.com/i/oJe.svg" />
-          <span>13&deg;</span>
-        </div>
-
-        <div className="p-4 d-flex flex-column justify-content-center align-items-center">
-          <span>Thu</span>
-          <img src="https://svgur.com/i/oKG.svg" />
-          <span>15&deg;</span>
-        </div>
-
-        <div className="p-4 d-flex flex-column justify-content-center align-items-center">
-          <span>Wed</span>
-          <img src="https://svgur.com/i/oKG.svg" />
-          <span>15&deg;</span>
-        </div>
-
-        <div className="p-4 d-flex flex-column justify-content-center align-items-center">
-          <span>Fri</span>
-          <img src="https://svgur.com/i/oJe.svg" />
-          <span>13&deg;</span>
-        </div>
-
-        <div className="p-4 d-flex flex-column justify-content-center align-items-center">
-          <span>Sat</span>
-          <img src="https://svgur.com/i/oJx.svg" />
-          <span>13&deg;</span>
-        </div>
-
-        <div className="p-4 d-flex flex-column justify-content-center align-items-center">
-          <span>Sun</span>
-          <img src="https://svgur.com/i/oJU.svg" />
-          <span>11&deg;</span>
-        </div>
-
-        <div className="p-4 d-flex flex-column justify-content-center align-items-center">
-          <span>Mon</span>
-          <img src="https://svgur.com/i/oJU.svg" />
-          <span>11&deg;</span>
-        </div>
-
-        <div className="p-4 d-flex flex-column justify-content-center align-items-center">
-          <span>Tue</span>
-          <img src="https://svgur.com/i/oJy.svg" />
-          <span>6&deg;</span>
-        </div>
+        {weatherList?.map((v, i) => {
+          return (
+            <div
+              className="p-4 d-flex flex-column justify-content-center align-items-center"
+              key={i}
+            >
+              <span>{dayjs(weatherList[i].ymd).format("YYYY-MM-DD")}</span>
+              <FontAwesomeIcon
+                size="lg"
+                icon={
+                  iconList.find((v) => v.label === weatherList?.[i]?.wf)
+                    ?.icon || iconList[0].icon
+                }
+              />
+              <span>
+                {weatherList[i].taMin}&#8451;/
+                {weatherList[i].taMax}&#8451;
+              </span>
+            </div>
+          );
+        })}
       </div>
-      {/* <div className="mt-5 d-flex justify-content-center align-items-center">
-        Made with ♡ by <a href="https://twitter.com/leutrimdemirii"> Leutrim</a>
-      </div> */}
     </>
   );
 }
