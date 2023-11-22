@@ -19,18 +19,19 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 export default function Weather() {
   const [weatherLoc, setWeatherLoc] = useState(""); // 지역명
   const [weatherList, setWeatherList] = useState([]); // 일자별 날씨정보
+
   const iconList = [
     { label: "알 수 없음", icon: faCircleQuestion },
-    { label: "맑음", icon: faSun },
-    { label: "구름많음", icon: faCloudSun },
-    { label: "구름많고 비", icon: faCloudShowersHeavy },
-    { label: "구름많고 눈", icon: faCloudMeatball },
-    { label: "구름많고 비/눈", icon: faCloudMeatball },
-    { label: "구름많고 소나기", icon: faCloudShowersHeavy },
-    { label: "흐림", icon: faCloud },
-    { label: "흐리고 비", icon: faCloudShowersHeavy },
-    { label: "흐리고 비/눈", icon: faCloudMeatball },
-    { label: "흐리고 소나기", icon: faCloudShowersHeavy },
+    { label: "맑음", icon: faSun, color: "#FF6347" },
+    { label: "구름많음", icon: faCloudSun, color: "#8C92AC" },
+    { label: "구름많고 비", icon: faCloudShowersHeavy, color: "#89CFF0" },
+    { label: "구름많고 눈", icon: faCloudMeatball, color: "#C0C0C0" },
+    { label: "구름많고 비/눈", icon: faCloudMeatball, color: "#C0C0C0" },
+    { label: "구름많고 소나기", icon: faCloudShowersHeavy, color: "#89CFF0" },
+    { label: "흐림", icon: faCloud, color: "#8C92AC" },
+    { label: "흐리고 비", icon: faCloudShowersHeavy, color: "#89CFF0" },
+    { label: "흐리고 비/눈", icon: faCloudMeatball, color: "#C0C0C0" },
+    { label: "흐리고 소나기", icon: faCloudShowersHeavy, color: "#89CFF0" },
   ]; // 날씨 아이콘
 
   // test
@@ -57,8 +58,13 @@ export default function Weather() {
 
   // init
   useEffect(() => {
-    // 강수량, 날씨
-    fetchWeatherLandList().then((res) => {
+    getWeatherLand();
+    getWeather();
+  }, [weatherLoc]);
+
+  // 강수량, 날씨
+  const getWeatherLand = () => {
+    fetchWeatherLandList(weatherLoc).then((res) => {
       const item = res?.items?.item?.[0];
       // 일자별 날씨정보
       const list = [
@@ -125,15 +131,17 @@ export default function Weather() {
       ];
       appendWeatherList(list);
     });
+  };
 
-    // 기온
-    fetchWeatherList().then((res) => {
+  // 기온
+  const getWeather = () => {
+    fetchWeatherList(weatherLoc).then((res) => {
       const { regId, ...item } = res?.items?.item?.[0];
-      // 지역명
-      const locKey = Object.keys(WTHR_AREA_CODE).find(
-        (v) => WTHR_AREA_CODE[v].tmprCode === regId
-      );
-      setWeatherLoc(WTHR_AREA_CODE[locKey].tmprLabel);
+      // // 지역명
+      // const locKey = Object.keys(WTHR_AREA_CODE).find(
+      //   (v) => WTHR_AREA_CODE[v].tmprCode === regId
+      // );
+      // setWeatherLoc(WTHR_AREA_CODE[locKey].tmprLabel);
 
       // 일자별 날씨정보
       const list = [
@@ -212,7 +220,8 @@ export default function Weather() {
       ];
       appendWeatherList(list);
     });
-  }, []);
+  };
+
   return (
     <>
       {/* 상단 대표영역 */}
@@ -226,6 +235,10 @@ export default function Weather() {
               </div>
               <div className="p-3">
                 <FontAwesomeIcon
+                  color={
+                    iconList.find((v) => v.label === weatherList?.[0]?.wf)
+                      ?.color || iconList[0].color
+                  }
                   size="6x"
                   icon={
                     iconList.find((v) => v.label === weatherList?.[0]?.wf)
@@ -237,7 +250,7 @@ export default function Weather() {
                 {/* 날짜 */}
                 <h5>{dayjs(weatherList?.[0]?.ymd).format("YYYY-MM-DD")}</h5>
                 {/* 지역 */}
-                <h3>{weatherLoc}</h3>
+                <h3>{weatherLoc?.landLabel}</h3>
                 <span className="weather__description">
                   {/* 날씨 텍스트 */}
                   {weatherList?.[0]?.wf}
@@ -259,6 +272,23 @@ export default function Weather() {
                   {weatherList?.[0]?.taMax}&#8451;
                 </span>
               </div>
+            </div>
+
+            {/* 지역 select */}
+            <div className="offset-md-8">
+              <select
+                className="form-select"
+                aria-label="select"
+                onChange={(e) => setWeatherLoc(e.target.value)}
+              >
+                {Object.keys(WTHR_AREA_CODE).map((key, i) => {
+                  return (
+                    <option value={key} key={i}>
+                      {WTHR_AREA_CODE[key].landLabel}
+                    </option>
+                  );
+                })}
+              </select>
             </div>
           </div>
         </div>
@@ -282,6 +312,10 @@ export default function Weather() {
                 icon={
                   iconList.find((v) => v.label === weatherList?.[i]?.wf)
                     ?.icon || iconList[0].icon
+                }
+                color={
+                  iconList.find((v) => v.label === weatherList?.[i]?.wf)
+                    ?.color || iconList[0].color
                 }
               />
               <span>
