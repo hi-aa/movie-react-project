@@ -15,6 +15,7 @@ import {
   faCloudMeatball,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { isEmptyObject } from "../../util/empty-validation";
 
 export default function Weather() {
   const [weatherLoc, setWeatherLoc] = useState(""); // 지역명
@@ -67,68 +68,70 @@ export default function Weather() {
     fetchWeatherLandList(weatherLoc).then((res) => {
       const item = res?.items?.item?.[0];
       // 일자별 날씨정보
-      const list = [
-        {
-          ymd: dayjs().add(3, "day").format("YYYYMMDD"),
-          rnStAm: item.rnSt3Am,
-          rnStPm: item.rnSt3Pm,
-          wfAm: item.wf3Am,
-          wfPm: item.wf3Pm,
-          rnSt: item.rnSt3Am,
-          wf: item.wf3Am,
-        },
-        {
-          ymd: dayjs().add(4, "day").format("YYYYMMDD"),
-          rnStAm: item.rnSt4Am,
-          rnStPm: item.rnSt4Pm,
-          wfAm: item.wf4Am,
-          wfPm: item.wf4Pm,
-          rnSt: item.rnSt4Am,
-          wf: item.wf4Am,
-        },
-        {
-          ymd: dayjs().add(5, "day").format("YYYYMMDD"),
-          rnStAm: item.rnSt5Am,
-          rnStPm: item.rnSt5Pm,
-          wfAm: item.wf5Am,
-          wfPm: item.wf5Pm,
-          rnSt: item.rnSt5Am,
-          wf: item.wf5Am,
-        },
-        {
-          ymd: dayjs().add(6, "day").format("YYYYMMDD"),
-          rnStAm: item.rnSt6Am,
-          rnStPm: item.rnSt6Pm,
-          wfAm: item.wf6Am,
-          wfPm: item.wf6Pm,
-          rnSt: item.rnSt6Am,
-          wf: item.wf6Am,
-        },
-        {
-          ymd: dayjs().add(7, "day").format("YYYYMMDD"),
-          rnStAm: item.rnSt7Am,
-          rnStPm: item.rnSt7Pm,
-          wfAm: item.wf7Am,
-          wfPm: item.wf7Pm,
-          rnSt: item.rnSt7Am,
-          wf: item.wf7Am,
-        },
-        {
-          ymd: dayjs().add(8, "day").format("YYYYMMDD"),
-          rnSt: item.rnSt8,
-          wf: item.wf8,
-        },
-        {
-          ymd: dayjs().add(9, "day").format("YYYYMMDD"),
-          rnSt: item.rnSt9,
-          wf: item.wf9,
-        },
-        {
-          ymd: dayjs().add(10, "day").format("YYYYMMDD"),
-          rnSt: item.rnSt10,
-          wf: item.wf10,
-        },
-      ];
+      const list = !isEmptyObject(item)
+        ? [
+            {
+              ymd: dayjs().add(3, "day").format("YYYYMMDD"),
+              rnStAm: item.rnSt3Am,
+              rnStPm: item.rnSt3Pm,
+              wfAm: item.wf3Am,
+              wfPm: item.wf3Pm,
+              rnSt: item.rnSt3Am,
+              wf: item.wf3Am,
+            },
+            {
+              ymd: dayjs().add(4, "day").format("YYYYMMDD"),
+              rnStAm: item.rnSt4Am,
+              rnStPm: item.rnSt4Pm,
+              wfAm: item.wf4Am,
+              wfPm: item.wf4Pm,
+              rnSt: item.rnSt4Am,
+              wf: item.wf4Am,
+            },
+            {
+              ymd: dayjs().add(5, "day").format("YYYYMMDD"),
+              rnStAm: item.rnSt5Am,
+              rnStPm: item.rnSt5Pm,
+              wfAm: item.wf5Am,
+              wfPm: item.wf5Pm,
+              rnSt: item.rnSt5Am,
+              wf: item.wf5Am,
+            },
+            {
+              ymd: dayjs().add(6, "day").format("YYYYMMDD"),
+              rnStAm: item.rnSt6Am,
+              rnStPm: item.rnSt6Pm,
+              wfAm: item.wf6Am,
+              wfPm: item.wf6Pm,
+              rnSt: item.rnSt6Am,
+              wf: item.wf6Am,
+            },
+            {
+              ymd: dayjs().add(7, "day").format("YYYYMMDD"),
+              rnStAm: item.rnSt7Am,
+              rnStPm: item.rnSt7Pm,
+              wfAm: item.wf7Am,
+              wfPm: item.wf7Pm,
+              rnSt: item.rnSt7Am,
+              wf: item.wf7Am,
+            },
+            {
+              ymd: dayjs().add(8, "day").format("YYYYMMDD"),
+              rnSt: item.rnSt8,
+              wf: item.wf8,
+            },
+            {
+              ymd: dayjs().add(9, "day").format("YYYYMMDD"),
+              rnSt: item.rnSt9,
+              wf: item.wf9,
+            },
+            {
+              ymd: dayjs().add(10, "day").format("YYYYMMDD"),
+              rnSt: item.rnSt10,
+              wf: item.wf10,
+            },
+          ]
+        : [];
       appendWeatherList(list);
     });
   };
@@ -136,7 +139,7 @@ export default function Weather() {
   // 기온
   const getWeather = () => {
     fetchWeatherList(weatherLoc).then((res) => {
-      const { regId, ...item } = res?.items?.item?.[0];
+      const item = res?.items?.item?.[0];
       // // 지역명
       // const locKey = Object.keys(WTHR_AREA_CODE).find(
       //   (v) => WTHR_AREA_CODE[v].tmprCode === regId
@@ -144,80 +147,82 @@ export default function Weather() {
       // setWeatherLoc(WTHR_AREA_CODE[locKey].tmprLabel);
 
       // 일자별 날씨정보
-      const list = [
-        {
-          ymd: dayjs().add(3, "day").format("YYYYMMDD"),
-          taMin: item.taMin3,
-          taMinLow: item.taMin3Low,
-          taMinHigh: item.taMin3High,
-          taMax: item.taMax3,
-          taMaxLow: item.taMax3Low,
-          taMaxHigh: item.taMax3High,
-        },
-        {
-          ymd: dayjs().add(4, "day").format("YYYYMMDD"),
-          taMin: item.taMin4,
-          taMinLow: item.taMin4Low,
-          taMinHigh: item.taMin4High,
-          taMax: item.taMax4,
-          taMaxLow: item.taMax4Low,
-          taMaxHigh: item.taMax4High,
-        },
-        {
-          ymd: dayjs().add(5, "day").format("YYYYMMDD"),
-          taMin: item.taMin5,
-          taMinLow: item.taMin5Low,
-          taMinHigh: item.taMin5High,
-          taMax: item.taMax5,
-          taMaxLow: item.taMax5Low,
-          taMaxHigh: item.taMax5High,
-        },
-        {
-          ymd: dayjs().add(6, "day").format("YYYYMMDD"),
-          taMin: item.taMin6,
-          taMinLow: item.taMin6Low,
-          taMinHigh: item.taMin6High,
-          taMax: item.taMax6,
-          taMaxLow: item.taMax6Low,
-          taMaxHigh: item.taMax6High,
-        },
-        {
-          ymd: dayjs().add(7, "day").format("YYYYMMDD"),
-          taMin: item.taMin7,
-          taMinLow: item.taMin7Low,
-          taMinHigh: item.taMin7High,
-          taMax: item.taMax7,
-          taMaxLow: item.taMax7Low,
-          taMaxHigh: item.taMax7High,
-        },
-        {
-          ymd: dayjs().add(8, "day").format("YYYYMMDD"),
-          taMin: item.taMin8,
-          taMinLow: item.taMin8Low,
-          taMinHigh: item.taMin8High,
-          taMax: item.taMax8,
-          taMaxLow: item.taMax8Low,
-          taMaxHigh: item.taMax8High,
-        },
-        {
-          ymd: dayjs().add(9, "day").format("YYYYMMDD"),
-          taMin: item.taMin9,
-          taMinLow: item.taMin9Low,
-          taMinHigh: item.taMin9High,
-          taMax: item.taMax9,
-          taMaxLow: item.taMax9Low,
-          taMaxHigh: item.taMax9High,
-        },
-        {
-          ymd: dayjs().add(10, "day").format("YYYYMMDD"),
-          taMin: item.taMin10,
-          taMinLow: item.taMin10Low,
-          taMinHigh: item.taMin10High,
-          taMax: item.taMax10,
-          taMaxLow: item.taMax10Low,
-          taMaxHigh: item.taMax10High,
-        },
-      ];
+      const list = !isEmptyObject(item)
+        ? [
+            {
+              ymd: dayjs().add(3, "day").format("YYYYMMDD"),
+              taMin: item.taMin3,
+              taMinLow: item.taMin3Low,
+              taMinHigh: item.taMin3High,
+              taMax: item.taMax3,
+              taMaxLow: item.taMax3Low,
+              taMaxHigh: item.taMax3High,
+            },
+            {
+              ymd: dayjs().add(4, "day").format("YYYYMMDD"),
+              taMin: item.taMin4,
+              taMinLow: item.taMin4Low,
+              taMinHigh: item.taMin4High,
+              taMax: item.taMax4,
+              taMaxLow: item.taMax4Low,
+              taMaxHigh: item.taMax4High,
+            },
+            {
+              ymd: dayjs().add(5, "day").format("YYYYMMDD"),
+              taMin: item.taMin5,
+              taMinLow: item.taMin5Low,
+              taMinHigh: item.taMin5High,
+              taMax: item.taMax5,
+              taMaxLow: item.taMax5Low,
+              taMaxHigh: item.taMax5High,
+            },
+            {
+              ymd: dayjs().add(6, "day").format("YYYYMMDD"),
+              taMin: item.taMin6,
+              taMinLow: item.taMin6Low,
+              taMinHigh: item.taMin6High,
+              taMax: item.taMax6,
+              taMaxLow: item.taMax6Low,
+              taMaxHigh: item.taMax6High,
+            },
+            {
+              ymd: dayjs().add(7, "day").format("YYYYMMDD"),
+              taMin: item.taMin7,
+              taMinLow: item.taMin7Low,
+              taMinHigh: item.taMin7High,
+              taMax: item.taMax7,
+              taMaxLow: item.taMax7Low,
+              taMaxHigh: item.taMax7High,
+            },
+            {
+              ymd: dayjs().add(8, "day").format("YYYYMMDD"),
+              taMin: item.taMin8,
+              taMinLow: item.taMin8Low,
+              taMinHigh: item.taMin8High,
+              taMax: item.taMax8,
+              taMaxLow: item.taMax8Low,
+              taMaxHigh: item.taMax8High,
+            },
+            {
+              ymd: dayjs().add(9, "day").format("YYYYMMDD"),
+              taMin: item.taMin9,
+              taMinLow: item.taMin9Low,
+              taMinHigh: item.taMin9High,
+              taMax: item.taMax9,
+              taMaxLow: item.taMax9Low,
+              taMaxHigh: item.taMax9High,
+            },
+            {
+              ymd: dayjs().add(10, "day").format("YYYYMMDD"),
+              taMin: item.taMin10,
+              taMinLow: item.taMin10Low,
+              taMinHigh: item.taMin10High,
+              taMax: item.taMax10,
+              taMaxLow: item.taMax10Low,
+              taMaxHigh: item.taMax10High,
+            },
+          ]
+        : [];
       appendWeatherList(list);
     });
   };
@@ -231,7 +236,7 @@ export default function Weather() {
             <div className="d-flex flex-row justify-content-center align-items-center">
               <div className="p-3">
                 {/* 기온 */}
-                <h2>{weatherList?.[0]?.taMin}&#8451;</h2>
+                <h2>{weatherList?.[0]?.taMin || ""}&#8451;</h2>
               </div>
               <div className="p-3">
                 <FontAwesomeIcon
@@ -253,7 +258,7 @@ export default function Weather() {
                 <h3>{weatherLoc?.landLabel}</h3>
                 <span className="weather__description">
                   {/* 날씨 텍스트 */}
-                  {weatherList?.[0]?.wf}
+                  {weatherList?.[0]?.wf || "No Data"}
                 </span>
               </div>
             </div>
